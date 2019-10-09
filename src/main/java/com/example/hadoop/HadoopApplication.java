@@ -1,5 +1,9 @@
 package com.example.hadoop;
 
+import com.example.hadoop.Mapreduce.Flow.FlowBeam;
+import com.example.hadoop.Mapreduce.Flow.FlowMapper;
+import com.example.hadoop.Mapreduce.Flow.FlowPartitioner;
+import com.example.hadoop.Mapreduce.Flow.FlowReducer;
 import com.example.hadoop.Mapreduce.WordCountMapper;
 import com.example.hadoop.Mapreduce.WordCountReducer;
 import org.apache.hadoop.conf.Configuration;
@@ -25,20 +29,23 @@ public class HadoopApplication {
         Configuration conf = new Configuration();
         Job job = Job.getInstance(conf);
 
-        job.setMapperClass(WordCountMapper.class);
-        job.setReducerClass(WordCountReducer.class);
+        job.setMapperClass(FlowMapper.class);
+        job.setReducerClass(FlowReducer.class);
+
+        job.setPartitionerClass(FlowPartitioner.class);
+        job.setNumReduceTasks(6);
 
         job.setJar("/home/hadoop.jar");
         job.setJarByClass(HadoopApplication.class);
 
         job.setMapOutputKeyClass(Text.class);
-        job.setMapOutputValueClass(IntWritable.class);
+        job.setMapOutputValueClass(FlowBeam.class);
 
         job.setOutputKeyClass(Text.class);
-        job.setOutputValueClass(LongWritable.class);
+        job.setOutputValueClass(FlowBeam.class);
 
-        FileInputFormat.setInputPaths(job, "hdfs://zhanlang1:9000/file");
-        FileOutputFormat.setOutputPath(job, new Path("hdfs://zhanlang1:9000/outputfile"));
+        FileInputFormat.setInputPaths(job, "hdfs://zhanlang1:9000/flow");
+        FileOutputFormat.setOutputPath(job, new Path("hdfs://zhanlang1:9000/outputflow"));
 
         boolean b = job.waitForCompletion(true);
         System.exit(b?0:1);
