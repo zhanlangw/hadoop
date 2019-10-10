@@ -5,16 +5,9 @@ import org.apache.hadoop.mapreduce.Reducer;
 
 import java.io.IOException;
 
-public class FlowReducer extends Reducer<Text, FlowBeam, Text, FlowBeam> {
+public class FlowReducer extends Reducer<FlowBeam, Text, Text, FlowBeam> {
     @Override
-    protected void reduce(Text key, Iterable<FlowBeam> values, Context context) throws IOException, InterruptedException {
-        long upflow = 0;
-        long downflow = 0;
-        for (FlowBeam flow : values) {
-            upflow += flow.getUpflow();
-            downflow += flow.getDownflow();
-        }
-        FlowBeam flowBeam = new FlowBeam(upflow, downflow);
-        context.write(key, flowBeam);
+    protected void reduce(FlowBeam key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+        context.write(values.iterator().next(), key);
     }
 }

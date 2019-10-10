@@ -32,20 +32,21 @@ public class HadoopApplication {
         job.setMapperClass(FlowMapper.class);
         job.setReducerClass(FlowReducer.class);
 
-        job.setPartitionerClass(FlowPartitioner.class);
-        job.setNumReduceTasks(6);
+        //设置map task 数据分区，以及reduce task数量
+//        job.setPartitionerClass(FlowPartitioner.class);
+//        job.setNumReduceTasks(6);
 
         job.setJar("/home/hadoop.jar");
         job.setJarByClass(HadoopApplication.class);
 
-        job.setMapOutputKeyClass(Text.class);
-        job.setMapOutputValueClass(FlowBeam.class);
+        job.setMapOutputKeyClass(FlowBeam.class);
+        job.setMapOutputValueClass(Text.class);
 
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(FlowBeam.class);
 
-        FileInputFormat.setInputPaths(job, "hdfs://zhanlang1:9000/flow");
-        FileOutputFormat.setOutputPath(job, new Path("hdfs://zhanlang1:9000/outputflow"));
+        FileInputFormat.setInputPaths(job, "hdfs://zhanlang1:9000/outputflow");
+        FileOutputFormat.setOutputPath(job, new Path("hdfs://zhanlang1:9000/sortflow"));
 
         boolean b = job.waitForCompletion(true);
         System.exit(b?0:1);
