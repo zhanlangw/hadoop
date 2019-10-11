@@ -20,8 +20,9 @@ public class FlowPartitioner extends Partitioner<Text, FlowBeam> {
         map.put("139", 4);
     }
 
+    //默认是key的hashcode对reduce task数量取模得到分区号 
     @Override
-    public int getPartition(Text key, FlowBeam flowBeam, int i) {
+    public int getPartition(Text key, FlowBeam flowBeam, int reduceNum) {
         String str = key.toString().substring(0, 3);
         Integer num = map.get(str);
         return num == null ? 5 : num;
