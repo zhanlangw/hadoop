@@ -17,8 +17,4 @@ public class WordCountMapper extends Mapper<LongWritable, Text, Text, IntWritabl
             context.write(new Text((char)(data.indexOf(i)) + ""), new IntWritable(i));
         }
     }
-
-    public static void main(String[] args) {
-        System.out.println(65);
-    }
 }

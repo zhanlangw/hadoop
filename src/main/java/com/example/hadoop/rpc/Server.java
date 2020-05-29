@@ -11,11 +11,11 @@ public class Server implements MyServer {
         return "我来了" + data;
     }
 
-    public static void main(String[] args) throws IOException {
-        RPC.Builder builder = new RPC.Builder(new Configuration());
-        RPC.Server server = builder.setBindAddress("localhost").setPort(8888).setProtocol(MyServer.class).setInstance(new Server()).build();
-        server.start();
-    }
+//    public static void main(String[] args) throws IOException {
+//        RPC.Builder builder = new RPC.Builder(new Configuration());
+//        RPC.Server server = builder.setBindAddress("localhost").setPort(8888).setProtocol(MyServer.class).setInstance(new Server()).build();
+//        server.start();
+//    }
 }
 interface MyServer{
     public static final long versionID=1L;

@@ -28,15 +28,15 @@ public class HadoopClient {
 //        conf.set("fs,defaultFS","hdfs://192.168.6.61:9000");
 
         //得到一个客户端对象
-        fs = FileSystem.get(new URI("hdfs://192.168.6.61:9000"), conf, "root");
+        fs = FileSystem.get(new URI("hdfs://192.168.81.11:9000"), conf, "root");
     }
 
     //上传文件
     @Test
     public void upload() throws IOException {
-        fs.copyFromLocalFile(new Path("F:\\aaa.txt"), new Path("/ccc/aaa.txt"));
+//        fs.copyFromLocalFile(new Path("E:\\aaa.txt"), new Path("/ccc.txt"));
         //下载
-        fs.copyToLocalFile(new Path("F:\\aaa.txt"), new Path("/ccc/aaa.txt"));
+        fs.copyToLocalFile(new Path("/aaa.txt"), new Path("E:\\bb.txt"));
         fs.close();
     }
 
@@ -64,10 +64,16 @@ public class HadoopClient {
         fs.close();
     }
 
+
+
+
+
+
+
     //查看文夹下所有的文件信息
     @Test
     public void fileStatus() throws IOException {
-        RemoteIterator<LocatedFileStatus> iterator = fs.listFiles(new Path("/ccc"), true);
+        RemoteIterator<LocatedFileStatus> iterator = fs.listFiles(new Path("/"), true);
         while (iterator.hasNext()) {
             LocatedFileStatus fileStatus = iterator.next();
             System.out.println("blocksize: " + fileStatus.getBlockSize());
@@ -91,7 +97,7 @@ public class HadoopClient {
     //查看文件信息
     @Test
     public void infoDri() throws IOException, InterruptedException {
-        FileStatus[] fileStatuses = fs.listStatus(new Path("/ccc"));
+        FileStatus[] fileStatuses = fs.listStatus(new Path("/"));
         for (FileStatus file : fileStatuses) {
             System.out.println("name: " + file.getPath().getName());
             System.out.println("permission2: " + file.getPath());
@@ -120,14 +126,14 @@ public class HadoopClient {
         org.apache.hadoop.io.IOUtils.copyBytes(inputStream, System.out, 4096,true);
     }
 
-    public static void main(String[] args) {
-        BB bb = new BB();
-        AA aaa = (AA)Proxy.newProxyInstance(BB.class.getClassLoader(), BB.class.getInterfaces(), (proxy, method, args1) -> {
-            System.out.println("aaa");
-            return method.invoke(bb, args1);
-        });
-        aaa.get();
-    }
+//    public static void main(String[] args) {
+//        BB bb = new BB();
+//        AA aaa = (AA)Proxy.newProxyInstance(BB.class.getClassLoader(), BB.class.getInterfaces(), (proxy, method, args1) -> {
+//            System.out.println("aaa");
+//            return method.invoke(bb, args1);
+//        });
+//        aaa.get();
+//    }
 }
 interface AA{
     void get();
