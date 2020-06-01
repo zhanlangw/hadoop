@@ -7,12 +7,12 @@ import org.apache.hadoop.mapreduce.Mapper;
 
 import java.io.IOException;
 
-public class WordCountMapper extends Mapper<LongWritable, Text,Text, IntWritable> {
+public class TestMapper extends Mapper<LongWritable, Text,Text, LongWritable> {
     @Override
     protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
         String string = value.toString();
         for (String item : string.split(" ")) {
-            context.write(new Text(item),new IntWritable(1));
+            context.write(new Text(item),new LongWritable(1));
         }
     }
 }
