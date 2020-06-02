@@ -59,6 +59,6 @@ public class FlowBeam implements Writable, WritableComparable<FlowBeam> {
     //排序，map task 分区的数据默认是按照输出key排序的，
     @Override
     public int compareTo(FlowBeam beam) {
-        return this.sumFlow > beam.getSumFlow() ? -1 : 1;
+        return this.sumFlow > beam.getSumFlow() ? 1 : -1;
     }
 }

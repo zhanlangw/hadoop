@@ -15,9 +15,9 @@ public class FlowMapper extends Mapper<LongWritable, Text,FlowBeam, Text > {
         String[] split = value.toString().split("\t");
         Text telephone = new Text(split[0]);
 
-        beam.setUpflow(Long.parseLong(split[1]));
-        beam.setDownflow(Long.parseLong(split[2]));
-        beam.setSumFlow(Long.parseLong(split[3]));
+        beam.setUpflow(Long.parseLong(split[split.length-3]));
+        beam.setDownflow(Long.parseLong(split[split.length-2]));
+        beam.setSumFlow(beam.getDownflow()+beam.getUpflow());
 
         context.write(beam, telephone);
     }
