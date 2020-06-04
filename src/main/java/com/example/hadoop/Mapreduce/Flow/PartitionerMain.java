@@ -5,10 +5,13 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.compress.CompressionCodec;
+import org.apache.hadoop.io.compress.GzipCodec;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
 import org.apache.hadoop.mapreduce.Reducer;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
+import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 import java.io.IOException;
@@ -41,6 +44,10 @@ public class PartitionerMain {
         conf.set("fs.defaultFS", "hdfs://192.168.81.11:9000/");
         Job job = Job.getInstance(conf);
 
+        //压缩配置
+//        conf.setBoolean(Job.MAP_OUTPUT_COMPRESS, true);
+//        conf.setClass(Job.MAP_OUTPUT_COMPRESS_CODEC, GzipCodec.class, CompressionCodec.class);
+
         job.setJarByClass(PartitionerMain.class);
 
         job.setMapperClass(PartitionerMapper.class);
@@ -54,7 +61,11 @@ public class PartitionerMain {
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(FlowBeam.class);
 
-        FileInputFormat.setInputPaths(job, new Path("/telephone-result/part-r-00000"));
+//        //添加压缩配置
+//        FileOutputFormat.setCompressOutput(job, true);
+//        FileOutputFormat.setOutputCompressorClass(job, GzipCodec.class);
+
+        TextInputFormat.setInputPaths(job, new Path("/telephone-result/part-r-00000.gz"));
         //指定处理完成之后的结果所保存的位置
         FileSystem fileSystem = FileSystem.get(conf);
         if (fileSystem.exists(new Path("/telephone-partitoner"))) {

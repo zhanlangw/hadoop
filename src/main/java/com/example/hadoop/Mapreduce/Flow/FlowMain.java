@@ -5,6 +5,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
+import org.apache.hadoop.io.compress.GzipCodec;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
@@ -20,13 +21,15 @@ public class FlowMain {
         conf.set("fs.defaultFS", "hdfs://192.168.81.11:9000/");
         Job job = Job.getInstance(conf);
 
+        //添加压缩配置
+        FileOutputFormat.setCompressOutput(job, true);
+        FileOutputFormat.setOutputCompressorClass(job, GzipCodec.class);
+
         job.setJarByClass(FlowMain.class);
 
         job.setMapperClass(FlowMapper.class);
-//        job.setPartitionerClass(FlowPartitioner.class);
-        job.setReducerClass(FlowReducer.class);
 
-//        job.setNumReduceTasks(6);
+        job.setReducerClass(FlowReducer.class);
 
         job.setMapOutputKeyClass(FlowBeam.class);
         job.setMapOutputValueClass(Text.class);
