@@ -11,6 +11,9 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 public class TestRunner {
     public static void main(String[] args) throws IOException, InterruptedException, ClassNotFoundException {
@@ -23,7 +26,11 @@ public class TestRunner {
         conf.set("yarn.resourcemanager.hostname", "master.hadoop");
         conf.set("fs.defaultFS", "hdfs://192.168.81.11:9000/");
         Job job = Job.getInstance(conf, "word count");
-        job.setJarByClass(TestRunner.class);
+
+//        job.setJarByClass(TestRunner.class);
+        job.setJar("E:\\develop\\CODE\\hadoop\\out\\artifacts\\hadoop_jar\\hadoop.jar");
+
+
         job.setMapperClass(TestMapper.class);
 //        job.setCombinerClass(TestReducer.class);
         job.setReducerClass(TestReducer.class);
@@ -41,7 +48,5 @@ public class TestRunner {
         }
         FileOutputFormat.setOutputPath(job, new Path("/sortflow"));
         System.exit(job.waitForCompletion(true) ? 0 : 1);
-
-
     }
 }

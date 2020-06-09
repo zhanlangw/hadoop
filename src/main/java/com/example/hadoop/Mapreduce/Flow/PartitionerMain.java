@@ -40,7 +40,7 @@ public class PartitionerMain {
         System.setProperty("HADOOP_USER_NAME", "root");
         System.setProperty("HADOOP_USER_PASSWORD", "root");
         Configuration conf = new Configuration();
-        conf.set("mapreduce.framework.name", "local");
+        conf.set("mapreduce.framework.name", "yarn");
         conf.set("fs.defaultFS", "hdfs://192.168.81.11:9000/");
         Job job = Job.getInstance(conf);
 

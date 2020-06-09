@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
 <!--
   Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,26 +15,27 @@
 -->
 
 <!-- Put site-specific property overrides in this file. -->
+
 <configuration>
     <property>
-        <name>mapreduce.framework.name</name>
-        <value>yarn</value>
-        <final>true</final>
+        <name>fs.defaultFS</name>
+        <value>hdfs://master.hadoop:9000</value>
     </property>
     <property>
-        <name>mapreduce.jobtracker.http.address</name>
-        <value>master.hadoop:50030</value>
+        <name>hadoop.tmp.dir</name>
+        <value>/home/hadoop/tmp</value>
     </property>
     <property>
-        <name>mapreduce.jobhistory.address</name>
-        <value>master.hadoop:10020</value>
+        <name>io.file.buffer.size</name>
+        <value>131702</value>
     </property>
-    <property>
-        <name>mapreduce.jobhistory.webapp.address</name>
-        <value>master.hadoop:19888</value>
-    </property>
-    <property>
-        <name>mapred.job.tracker</name>
-        <value>http://master.hadoop:9001</value>
-    </property>
+
+<!--    <property>-->
+<!--        <name>fs.hdfs.impl</name>-->
+<!--        <value>org.apache.hadoop.hdfs.DistributedFileSystem</value>-->
+<!--    </property>-->
+<!--    <property>-->
+<!--        <name>fs.file.impl</name>-->
+<!--        <value>org.apache.hadoop.fs.LocalFileSystem</value>-->
+<!--    </property>-->
 </configuration>
