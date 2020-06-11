@@ -55,5 +55,16 @@ public class DomainBean implements Writable, WritableComparable<DomainBean> {
     public int compareTo(DomainBean bean) {
         return Long.parseLong(bean.getPrice()) > Long.parseLong(this.price) ? 1 : -1;
     }
+
+    @Override
+    public String toString() {
+        return
+                orderId + '\t' +
+                        price + '\t' +
+                        orderDesc + '\t' +
+                        productId + '\t' +
+                        productName + '\t' +
+                        productDesc + '\t';
+    }
 }
 

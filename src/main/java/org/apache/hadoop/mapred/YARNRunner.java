@@ -288,8 +288,10 @@ public class YARNRunner implements ClientProtocol {
 	private List<String> setupAMCommand(Configuration jobConf) {
 		List<String> vargs = new ArrayList(8);
 //		vargs.add(MRApps.crossPlatformifyMREnv(jobConf, Environment.JAVA_HOME) + "/bin/java");
+
 		//todo 兼容windows
 		vargs.add("$JAVA_HOME/bin/java");
+
 		Path amTmpDir = new Path(MRApps.crossPlatformifyMREnv(this.conf, Environment.PWD), "./tmp");
 		vargs.add("-Djava.io.tmpdir=" + amTmpDir);
 		MRApps.addLog4jSystemProperties((Task)null, vargs, this.conf);

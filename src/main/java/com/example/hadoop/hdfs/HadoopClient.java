@@ -104,7 +104,7 @@ public class HadoopClient {
         for (FileStatus file : fileStatuses) {
             System.out.println("name: " + file.getPath().getName());
             System.out.println("permission2: " + file.getPath());
-            System.out.println(file.isDir() ? "directory" : "file");
+            System.out.println(file.isDirectory() ? "directory" : "file");
             System.out.println("----------------------------------------------");
         }
     }

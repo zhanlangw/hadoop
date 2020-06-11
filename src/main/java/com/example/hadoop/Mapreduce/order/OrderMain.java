@@ -6,6 +6,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.LongWritable;
+import org.apache.hadoop.io.NullWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.Mapper;
@@ -27,7 +28,7 @@ public class OrderMain {
             DomainBean bean;
             Text productId = new Text();
             String fileName = ((FileSplit) context.getInputSplit()).getPath().getName();
-            if ("order".equals(fileName)) {
+            if (fileName.startsWith("order")) {
                 bean = new DomainBean(fields[0], fields[1], fields[3], fields[2], "", "");
                 productId.set(fields[2]);
             } else {

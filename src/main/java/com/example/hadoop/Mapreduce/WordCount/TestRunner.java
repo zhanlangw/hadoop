@@ -7,6 +7,7 @@ import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
+import org.apache.hadoop.mapreduce.lib.input.CombineTextInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
@@ -28,8 +29,8 @@ public class TestRunner {
         Job job = Job.getInstance(conf, "word count");
 
 //        job.setJarByClass(TestRunner.class);
-        job.setJar("E:\\develop\\CODE\\hadoop\\out\\artifacts\\hadoop_jar\\hadoop.jar");
-
+//        job.setJar("E:\\develop\\CODE\\hadoop\\target\\hadoop-1.0-SNAPSHOT-jar-with-dependencies.jar");
+        job.setJar("/root/hadoop-1.0-SNAPSHOT-jar-with-dependencies.jar");
 
         job.setMapperClass(TestMapper.class);
 //        job.setCombinerClass(TestReducer.class);
@@ -39,6 +40,11 @@ public class TestRunner {
         job.setMapOutputValueClass(LongWritable.class);
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(IntWritable.class);
+
+        //如果不设置InputFormat，它默认用的是TextInputformat.class ,可以讲小文件合成大文件提交给maptask
+        job.setInputFormatClass(CombineTextInputFormat.class);
+        CombineTextInputFormat.setMaxInputSplitSize(job, 4194304);
+        CombineTextInputFormat.setMinInputSplitSize(job, 2097152);
 
         FileInputFormat.setInputPaths(job, new Path("/profile"));
         //指定处理完成之后的结果所保存的位置
